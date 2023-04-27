@@ -1,90 +1,86 @@
 package sg.edu.nus.iss;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class App {
 
+    // write Java console program that allows user to add, remove
+    // & list the contents of the shopping cart
+    // store the shopping cart with appropriate collection type
+
     public static void main(String[] args) {
-        //print welcome statement
+
+        // print welcome statement
         System.out.println("Welcome to Cart");
 
-        //create a list for shopping card
-      ArrayList<String> shoppingCart = new ArrayList<String>();
+        // create a list variable 'shoppingList' to contain contents of the cart
+        List<String> shoppingList = new ArrayList<>();
 
-      //create user input 
-      Scanner scan = new Scanner(System.in);
-      String command = "";
-
-
-      
-
-      while (!command.equals("quit")){
-        System.out.print("> ");
-        command = scan.nextLine();
+        // create a scanner object to allow user input
+        // 'System.in' - for user input from keyboard
+        Scanner scan = new Scanner (System.in);
         
+        // create a string variable 'command' for user input 
+        // leave empty for now 
+        String command = "";
 
-        if (command.equals("list")){
-            showCart(shoppingCart);
-        } else if (command.startsWith("add")){
+        // allow user to list contents from the cart
+        // display text for empty cart
+        // display cart contents with numbering if available
+        while (!command.equals("quit")){
 
-            String items = command.substring(3);
-            String [] cartItems = items.split(",");
-            addCart(cartItems, shoppingCart);
+            // use '>' as prompt for user input
+            System.out.print("> "); 
+            command = scan.nextLine();
 
-        } else if (command.startsWith("delete")){
-
-            String deleteItems = command.substring(6);
-            deleteCart(deleteItems, shoppingCart);
             
-        } else {
-            System.out.println("goodbye");
-        }
-        }
-      } 
+            if (command.equals("list") && shoppingList.isEmpty()){
+                System.out.println("Shopping Cart is Empty!");
 
-    //create method to show cart 
-    //if empty, display message
-    //if not, display numbered list of contents
-    public static void showCart(ArrayList<String> cart){
-        if (cart.isEmpty()){
-            System.out.println("Cart is empty!");
-        } else {
-            for (int i = 1; i <= cart.size(); i++){
-                System.out.println(i + ". " + cart.get(i-1));
+            } 
+            
+            else if (shoppingList.size() > 1){
+                int itemNum = 1;
+                for (String cartItems : shoppingList){
+                    System.out.println(itemNum + ". " + cartItems);
+                itemNum++;
             }
         }
-    }
 
-    //create method to add to cart
-    //if item already in cart, display message
-    //if not, add item to cart
-    //to add more than 1 items, separate by comma
-    public static void addCart(String [] cartItems, ArrayList<String> cart ){
-        for (String addedItem : cartItems){
+        // allow user to add item to cart 
+        // multiple items should be separated by a comma
+        // should not add item already found in cart
+        // display appropriate text for duplicate items
+            if (command.startsWith("add")){
+            command.replace(',',' ');
 
-            // .trim() method is to trim whitespace from user entry
-            addedItem.trim(); 
+            Scanner scanItems = new Scanner(command.substring(4));
 
-            if (cart.contains(addedItem)){
-                System.out.println("duplicate item!");
-            } else {
-                cart.add(addedItem);
-                System.out.println("item added!");
+            while (scanItems.hasNext()){
+            String item = "";
+            shoppingList.add(item);
+            command = scan.nextLine();
+            
+            System.out.println(scanItems + " added!");
+            }
+        } 
+            else if (shoppingList.contains(command)){
+                System.out.println("item already exists!");
             }
 
-        }
-    }
+        // allow user to delete item from cart
+        // delete item based on item index by 'list' command
+        // display error message for incorrect index input
+            //else if (command.startsWith("delete")){
+                //for (int deleteNum = 1; shoppingList.remove(deleteNum - 1); deleteNum--;){
 
-    //create method to delete from cart
-    //delete from index position
-    //if index is incorrect, display error message
-    public static void deleteCart(String deletedItems, ArrayList<String> cart){
-        int itemNum = Integer.parseInt(deletedItems) - 1;
-        if (itemNum > cart.size() - 1 || itemNum < 0){
-            System.out.println("Item does not exist!");
-        } else {
-            cart.remove(itemNum);
-            System.out.println("item deleted!");
-        }
+               // }
+            //}
+        
     }
+    System.exit(0);
+
+
+}
 }
