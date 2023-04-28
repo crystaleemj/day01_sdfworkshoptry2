@@ -53,30 +53,39 @@ public class App {
         // should not add item already found in cart
         // display appropriate text for duplicate items
             if (command.startsWith("add")){
-            command.replace(',',' ');
+                command = command.replace(',',' '); 
 
             Scanner scanItems = new Scanner(command.substring(4));
 
             while (scanItems.hasNext()){
-            String item = "";
+            String item = scanItems.next();
+
+            if (shoppingList.contains(item)){
+            System.out.println("item already exists!");
+            } else 
+        
+            System.out.println(item + " added!");
             shoppingList.add(item);
-            command = scan.nextLine();
-            
-            System.out.println(scanItems + " added!");
             }
         } 
-            else if (shoppingList.contains(command)){
-                System.out.println("item already exists!");
-            }
+        
 
         // allow user to delete item from cart
         // delete item based on item index by 'list' command
         // display error message for incorrect index input
-            //else if (command.startsWith("delete")){
-                //for (int deleteNum = 1; shoppingList.remove(deleteNum - 1); deleteNum--;){
+            if (command.startsWith("delete")){
+                Scanner scanDelete = new Scanner(command.substring(7));
+                int deletedItem = scanDelete.nextInt();
 
-               // }
-            //}
+                deletedItem--;
+
+                if (deletedItem < shoppingList.size()){
+                    System.out.println(shoppingList.get(deletedItem) + " is " + "deleted!");
+                    shoppingList.remove(deletedItem);
+                } else {
+                    System.out.println("cannot delete this item!");
+                }
+            }
         
     }
     System.exit(0);
